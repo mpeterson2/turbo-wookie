@@ -274,7 +274,7 @@ class MPDController {
    * String dataType: The type of data to recieve. By default a String is returned.
    * String newKey: If you are receiving a list of maps, this is the key that defines a new item in the list.
    */
-  Future cmd(String request, {String dataType: "string", String newKey: "file"}) {
+  Future cmd(String command, {String dataType: "string", String newKey: "file"}) {
     Completer completer = new Completer();
     String dataStr = "";
     
@@ -283,7 +283,7 @@ class MPDController {
     connect()
       .then((Socket socket) {
         // Send MPD our request with a new line attached at the end.
-        socket.write("$request\n");
+        socket.write("$command\n");
         
         // Gather our data when we get it.
         socket.listen((List<int> ints) {
@@ -308,6 +308,8 @@ class MPDController {
           // We're done.
           completer.complete(data);
         });
+      }, onError: (e) {
+        // MPD probably shut down, so this will be dealt with later.
       });
     
     return completer.future;
