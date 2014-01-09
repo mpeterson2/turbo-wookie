@@ -9,7 +9,6 @@ import "lib/turbo-wookie.dart";
  * Deals with some command line args and config stuff then starts the server.
  */
 void main(List<String> args) {
-  _printWelcome();
   ArgParser parser = _getParser();
   ArgResults results = parser.parse(args);
   
@@ -18,6 +17,7 @@ void main(List<String> args) {
     print(parser.getUsage());
     return;
   }
+  _printWelcome();
 
   // Set config info.
   Config.create("config.yaml", forceCreate: results["force-conf"])

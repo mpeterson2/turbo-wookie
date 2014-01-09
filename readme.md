@@ -1,4 +1,8 @@
-# Turbo Wookie
+# Turbo Wookie - Dart
+
+This is a fork of [Turbo Wookie](github.com/turbowookie/turbo-wookie). It does all the same stuff, but the entire application is written in [Dart](dartlang.org), while the original backend was written in [Go](golang.org).
+
+Why rewrite it in Dart? Just for fun really. I really like the language and I wanted to see what server side applications were like in Dart.
 
 Turbo Wookie is a whimsically named product. More importantly, it's a collaborative music jukebox which streams music to multiple clients concurrently.
 
@@ -22,8 +26,8 @@ Turbo Wookie has four main components, in three parts:
 The three parts are:
 
 1. [MPD](http://www.musicpd.org/) (Music Player Daemon). It acts as both our stream and library.
-2. Our [backend server](https://github.com/turbowookie/turbo-wookie/tree/master/backend). It's written in [Go](http://golang.org), and is where we actually tell MPD to do things.
-3. Our [frontend](https://github.com/turbowookie/turbo-wookie/tree/master/frontend/turbo_wookie). It's written in [Dart](http://dartlang.org) and is where the stream is played, and where users ask for the stream to be manipulated. It also shows the library. We think it's kinda pretty.
+2. Our [backend server](github.com/mpeterson2/turbo-wookie/tree/master/backend). Where we actually tell MPD to do things.
+3. Our [frontend](github.com/mpeterson2/turbo-wookie/tree/master/frontend). Where the stream is played, and where users ask for the stream to be manipulated. It also shows the library. We think it's kinda pretty.
 
 Thus far, running Turbo Wookie been tested on Linux (Ubuntu and Arch) and Windows. Presumably it'll run on OS X, we just don't have any team members running OS X.
 
@@ -33,11 +37,11 @@ If you want to follow our incredibly snarky [manual](http://turbowookie.github.i
 
 If you'd rather just have the gist, and figure it out yourself:
 
-1. Install MPD, Go, and Dart (or at least `dart2js` and `pub`). Make sure MPD's executable is in your path.
-2. Build the `frontend/turbo_wookie/` dart project (using `pub get && pub update && pub build`), which will compile our dart code to javascript.
-3. Copy `backend/mpd/mpd.conf.example` to `backend/mpd/mpd.conf`, and modify it so it uses your directories, instead of mine.
-4. Copy `backend/config.example.yaml` to `backend/config.yaml`, and adjust as needed. If all you change in `mpd.conf` is the directories, you only need to change `turbo_wookie_directory` and `mpd_subdirectory` (and probably not even `mpd_subdirectory`).
-5. Open the `backend` directory, and run `server.go` (if you don't want to build it, `go run server.go`, if you want to build it `go build server.go && ./server`). You might need to grab some dependencies.
+1. Install MPD, and Dart (or at least `dart2js` and `pub`). Make sure MPD's executable is in your path.
+2. Get the backend dependacies by running `pub get` on the [backend](github.com/mpeterson2/turbo-wookie/tree/master/backend) directory.
+3. Build the [frontend](github.com/mpeterson2/turbo-wookie/tree/master/frontend) dart project (using `pub get && pub update && pub build`), which will compile our dart code to javascript.
+4. Copy `backend/mpd/mpd.conf.example` to `backend/mpd/mpd.conf`, and modify it so it uses your settings (if you need to).
+5. Open the `backend` directory, and run `dart turbo-wookie.dart`. If you are on a Unix machine, you can run `./turbo-wookie.dart` in the `backend` directory.
 
 Eventually (hopefully) we'll put together an executable, complete with the frontend, so you don't have to manually build all that stuff.
 
@@ -48,13 +52,12 @@ Turbo Wookie assumes you're running it in a directory with a `config.yaml` file 
 
 You need the same things installed as before, in addition to [Dartium](https://www.dartlang.org/tools/dartium/), a Chromium build that can run unconverted Dart code, if you want to play with the frontend.
 
-The only difference between the above steps for getting Turbo Wookie running is that when you run the server, you might want to use one of our three flags:
+The only difference between the above steps for getting Turbo Wookie running is that when you run the server, you might want to use one of our two flags:
 
-- `-dart` (bool) will serve up the unconverted dart code (the `frontend/turbo_wookie/web` directory instead of the `frontend/turbo_wookie/build` directory).
-- `-nompd` (bool) will *not* start MPD with the server, it'll assume you've started MPD already. If you don't start MPD and use this flag, bad things will happen (as in, the server won't start because it won't be able to talk to MPD).
-- `-config` (string) will specify a specific config file. If you don't include the config flag, it will assume there's a config file in your current working directory.
+- `--dev` (bool) will serve up the unconverted dart code (the `frontend/turbo_wookie/web` directory instead of the `frontend/turbo_wookie/build` directory).
+- `--no-mpd` (bool) will *not* start MPD with the server, it'll assume you've started MPD already. If you don't start MPD and use this flag, bad things will happen (as in, the server won't start because it won't be able to talk to MPD).
 
-Using the flags is easy, even if you're using `go run`, just append them to the end of the command (as in `go run server.go -dart -config /path/to/config.yaml -nompd`).
+For more flag information run `dart turbo-wookie help`.
 
 Everything is fairly well documented.
 

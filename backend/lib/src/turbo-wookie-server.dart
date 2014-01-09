@@ -69,6 +69,11 @@ class TurboWookieServer {
     _watchMPD();
   }
   
+  /**
+   * Watch MPD to be sure it plays a random song whenever no song is playing.
+   * 
+   * This method will call itself when it receives an update from MPD.
+   */
   void _watchMPD() {
     mpd.watcher().then((Map<String, String> watch) {
       if(watch["changed"] == "player") {
