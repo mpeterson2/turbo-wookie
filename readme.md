@@ -1,5 +1,7 @@
 # Turbo Wookie - Dart
 
+**This repository will probably not get updated.**
+
 This is a fork of [Turbo Wookie](github.com/turbowookie/turbo-wookie). It does all the same stuff, but the entire application is written in [Dart](dartlang.org), while the original backend was written in [Go](golang.org).
 
 Why rewrite it in Dart? Just for fun really. I really like the language and I wanted to see what server side applications were like in Dart.
